@@ -20,6 +20,7 @@ on:
   # Run this workflow whenever the main branch is updated
   push:
     branches: [main]
+  workflow_dispatch:
 
   # Allow running it manually from the GitHub Actions tab
   workflow_dispatch:

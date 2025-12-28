@@ -21,6 +21,7 @@ on:
   push:
     branches: [main]
   pull_request:
+  workflow_dispatch:
 
   # Run weekly on Mondays at 8:00 UTC to catch new issues
   schedule:
