@@ -1296,7 +1296,7 @@
                 "height": 36
               },
               "snippet": "<footer id=\"footer\">",
-              "nodeLabel": "RockSwap: Site | Source • Version: 0.0.1 • Updated: 2025-10-13"
+              "nodeLabel": "Game: Site | Source • Version: 0.0.1 • Updated: 2025-10-13"
             },
             "score": 0.010604277777777777
           }
@@ -2893,7 +2893,7 @@
                 "height": 938
               },
               "snippet": "<div class=\"wrap\">",
-              "nodeLabel": "Score: 0 | Moves: 0\nClick a rock, then an adjacent one to swap.\nRockSwap: Site …"
+              "nodeLabel": "Score: 0 | Moves: 0\nClick a rock, then an adjacent one to swap.\nGame: Site …"
             },
             "statistic": "Maximum Child Elements",
             "value": {

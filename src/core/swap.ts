@@ -26,21 +26,11 @@ function inBounds(board: Board, r: number, c: number): boolean {
   return r < rows && c < cols;
 }
 
-function isAdjacent(
-  a: { r: number; c: number },
-  b: { r: number; c: number }
-): boolean {
+function isAdjacent(a: { r: number; c: number }, b: { r: number; c: number }): boolean {
   return Math.abs(a.r - b.r) + Math.abs(a.c - b.c) === 1;
 }
 
-export function trySwap(
-  board: Board,
-  r1: number,
-  c1: number,
-  r2: number,
-  c2: number
-): boolean {
-
+export function trySwap(board: Board, r1: number, c1: number, r2: number, c2: number): boolean {
   if (!inBounds(board, r1, c1) || !inBounds(board, r2, c2)) {
     return false;
   }
@@ -74,4 +64,3 @@ export function trySwap(
 
   return true;
 }
-

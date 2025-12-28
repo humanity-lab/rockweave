@@ -60,7 +60,7 @@ function findWildcardRunsInLine(line: number[]): Array<{ start: number; end: num
   const colors = new Set<number>();
   for (let i = 0; i < n; i++) {
     const v = line[i]!;
-    if (v < 0) continue;           // empty
+    if (v < 0) continue; // empty
     if (!isDiamondRock(v)) {
       colors.add(baseColor(v));
     }
@@ -92,12 +92,13 @@ function findWildcardRunsInLine(line: number[]): Array<{ start: number; end: num
       // Skip cells that cannot belong to this color's run
       while (i < n) {
         const v = line[i]!;
-        if (v < 0) {          // empty breaks any run
+        if (v < 0) {
+          // empty breaks any run
           i++;
           continue;
         }
         if (isDiamondRock(v) || baseColor(v) === color) {
-          break;              // good start for this color
+          break; // good start for this color
         }
         i++;
       }
@@ -108,11 +109,11 @@ function findWildcardRunsInLine(line: number[]): Array<{ start: number; end: num
       i++;
       while (i < n) {
         const v = line[i]!;
-        if (v < 0) break;     // empty ends the run
+        if (v < 0) break; // empty ends the run
         if (isDiamondRock(v) || baseColor(v) === color) {
-          i++;                // stays in the run
+          i++; // stays in the run
         } else {
-          break;              // different color ends the run
+          break; // different color ends the run
         }
       }
       const end = i - 1;
@@ -191,4 +192,3 @@ export function combineMatches(a: boolean[][], b: boolean[][]): boolean[][] {
 
   return out;
 }
-

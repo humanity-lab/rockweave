@@ -1,6 +1,6 @@
 // ============================================================
 // File: src/systems/renderer.ts
-// Purpose: Draw the RockSwap board, highlights, selection,
+// Purpose: Draw the board, highlights, selection,
 //          special-rock symbols, optional pulse, and Game Over overlay.
 // ============================================================
 
@@ -121,22 +121,21 @@ export function renderBoard(
         ctx.font = `${Math.floor(cell * 0.6)}px sans-serif`;
 
         if (isStarRock(v)) {
-  ctx.fillText("★", x + cell / 2, y + cell / 2);
+          ctx.fillText("★", x + cell / 2, y + cell / 2);
+        } else if (isDiamondRock(v)) {
+          const base = colorFor(board, r, c);
+          const inv = invertRgba(base);
 
-} else if (isDiamondRock(v)) {
-  const base = colorFor(board, r, c);
-  const inv = invertRgba(base);
+          ctx.save();
+          ctx.fillStyle = inv;
+          ctx.strokeStyle = "black";
+          ctx.lineWidth = 2;
 
-  ctx.save();
-  ctx.fillStyle = inv;
-  ctx.strokeStyle = "black";
-  ctx.lineWidth = 2;
-
-  ctx.strokeText("◆", x + cell / 2, y + cell / 2);
-  ctx.fillText("◆", x + cell / 2, y + cell / 2);
-  ctx.restore();
-}
- }
+          ctx.strokeText("◆", x + cell / 2, y + cell / 2);
+          ctx.fillText("◆", x + cell / 2, y + cell / 2);
+          ctx.restore();
+        }
+      }
 
       // ======================================================
     }
@@ -188,39 +187,37 @@ export function renderBoard(
     }
   }
 
-// ----------------------------
-// Game Over overlay (board-centered)
-// ----------------------------
-if (opts && opts.gameOver) {
-  ctx.save();
+  // ----------------------------
+  // Game Over overlay (board-centered)
+  // ----------------------------
+  if (opts && opts.gameOver) {
+    ctx.save();
 
-  const boardW = cols * cell;
-  const boardH = rows * cell;
-  const cx = ox + boardW / 2;
-  const cy = oy + boardH / 2;
+    const boardW = cols * cell;
+    const boardH = rows * cell;
+    const cx = ox + boardW / 2;
+    const cy = oy + boardH / 2;
 
-  // Dim only the board area
-  ctx.fillStyle = "rgba(0,0,0,0.45)";
-  ctx.fillRect(ox, oy, boardW, boardH);
+    // Dim only the board area
+    ctx.fillStyle = "rgba(0,0,0,0.45)";
+    ctx.fillRect(ox, oy, boardW, boardH);
 
-  ctx.fillStyle = "white";
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
 
-  // Both lines same (smaller) size
-  const textSize = Math.floor(cell * 0.4);
-  ctx.font = `${textSize}px sans-serif`;
+    // Both lines same (smaller) size
+    const textSize = Math.floor(cell * 0.4);
+    ctx.font = `${textSize}px sans-serif`;
 
-  ctx.fillText("NO MOVES – GAME OVER", cx, cy - cell * 0.45);
-  ctx.fillText("Tap New Game to play again", cx, cy + cell * 0.45);
+    ctx.fillText("NO MOVES – GAME OVER", cx, cy - cell * 0.45);
+    ctx.fillText("Tap New Game to play again", cx, cy + cell * 0.45);
 
-  ctx.restore();
+    ctx.restore();
+  }
+
+  ctx.restore(); // undo pulse transform
 }
-
-ctx.restore(); // undo pulse transform
-}
-
-
 
 // ----------------------------
 // Convert pointer → board cell

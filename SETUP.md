@@ -23,13 +23,13 @@ If you want to change gameplay, scoring logic, or transitions, you'll probably w
 ## 2. Get a Copy on Your Machine
 
 Log in to GitHub.
-Go to [github.com/BruceRanger/rockswap](https://github.com/BruceRanger/rockswap). Click "Fork" to copy the repo into your GitHub account.
-Clone your new rockswap repo down to your machine and open in VS Code using the following commands.
+Go to the source repo. Click "Fork" to copy the repo into your GitHub account.
+Clone your new repo down to your machine and open in VS Code using the following commands.
 Open terminal.
 
 ```
-git clone https://github.com/BruceRanger/rockswap.git
-cd rockswap
+git clone <your_repo_url>
+cd rockweave
 code .
 ```
 

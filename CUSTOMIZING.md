@@ -1,6 +1,6 @@
-# Customizing RockSwap
+# Customizing The Game
 
-Create your own version of RockSwap with custom colors or settings - just follow this guide.
+Create your own version the game with custom colors or settings - just follow this guide.
 
 ## What You'll Need
 
@@ -13,7 +13,7 @@ Create your own version of RockSwap with custom colors or settings - just follow
 ## Step 1A: Fork This Repository
 
 1. Click the **Fork** button at the top right of this repository
-2. GitHub will create a copy under your account (e.g., `yourname/rockswap`)
+2. GitHub will create a copy under your account (e.g., `yourname/rockweave`)
 3. You now have your own version to customize.
 
 ## Step 1B: Enable Pages from Your Repo
@@ -70,7 +70,7 @@ Committing your changes will automatically deploy your new game page.
 
 ## Periodically: Get Updates from the Original Repo
 
-As RockSwap evolves, here's how to get the updates:
+As the game evolves, here's how to get the updates:
 
 ### On GitHub (Web Interface):
 
@@ -127,8 +127,7 @@ If you do get conflicts:
 ### Sharing Your Fork:
 
 - Change the repo description to mention it's a custom version
-- Link back to the original repo: Based on RockSwap (original-link)
-- Share your color scheme! Tag it #rockswap-custom
+- Link back to the original repo: Based on (original-link)
 
 </details>
 

@@ -12,8 +12,6 @@
 # the files into a clean, optimized bundle (the dist/ folder)
 # and uploads them to the GitHub Pages hosting service.
 #
-# After completion, the live game is available at:
-#   https://BruceRanger.github.io/rockswap/
 # ============================================================
 
 name: Deploy

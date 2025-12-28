@@ -13,7 +13,7 @@ export default defineConfig({
     stringify: false
   },
   server: { port: 5174 },
-  base: "/rockswap/",
+  base: "/rockweave/",
   build: {
     target: "es2020",
     minify: "esbuild",

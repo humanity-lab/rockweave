@@ -1,6 +1,6 @@
 // ============================================================
 // File: src/main.ts
-// Purpose: Main game loop + UI wiring for RockSwap
+// Purpose: Main game loop + UI wiring
 // ============================================================
 
 import packageInfo from "../package.json";
@@ -14,12 +14,7 @@ import { clearAndScore, USER_SCORING } from "./core/scoring";
 import { renderBoard, pickCellAt } from "./systems/renderer";
 import { loadHighScore, maybeUpdateHighScore, clearHighScore } from "./systems/highscore";
 //import { isStarRock, isDiamondRock } from "./core/cell";
-import {
-  isStarRock,
-  isDiamondRock,
-  FLAG_STAR,
-  FLAG_DIAMOND
-} from "./core/cell";
+import { isStarRock, isDiamondRock, FLAG_STAR, FLAG_DIAMOND } from "./core/cell";
 
 let score = 0;
 let moves = 0;
@@ -33,10 +28,16 @@ let dragStart: { r: number; c: number } | null = null;
 // ================= DEBUG TEST BOARD =================
 
 // Base color aliases (from config.ts order)
-const R = 0, G = 1, O = 2, P = 3, B = 4, Y = 5, W = 6;
+const R = 0,
+  G = 1,
+  O = 2,
+  P = 3,
+  B = 4,
+  Y = 5,
+  W = 6;
 
 // Flags
-const S = FLAG_STAR;     // ★
+const S = FLAG_STAR; // ★
 const D = FLAG_DIAMOND; // ◆
 
 // Fixed test board
@@ -65,7 +66,7 @@ const D = FLAG_DIAMOND; // ◆
 
 let board = createBoard();
 
- // @ts-ignore
+// @ts-ignore
 (window as any).board = board;
 // @ts-ignore
 (window as any).findMatches = findMatches;
@@ -92,14 +93,16 @@ function scoringSummary(): string {
   const atLeastKeys = Object.keys(atLeast).sort((a, b) => Number(a) - Number(b));
 
   const exactText =
-    exactKeys.length > 0 ? exactKeys.map((k) => `for ${k}: ${exact[k as any]} pts`).join(", ") : "none";
+    exactKeys.length > 0
+      ? exactKeys.map((k) => `for ${k}: ${exact[k as any]} pts`).join(", ")
+      : "none";
 
   const atLeastText =
     atLeastKeys.length > 0
       ? atLeastKeys.map((k) => `${k}+ cells: +${atLeast[k]} pts`).join(" | ")
       : "none";
 
-return `Scoring: ${per} pts/cell; exact: ${exactText}; long-chain: ${atLeastText}.`;
+  return `Scoring: ${per} pts/cell; exact: ${exactText}; long-chain: ${atLeastText}.`;
 }
 
 // ---- DOM setup ----
@@ -201,7 +204,7 @@ function hasAnyValidMove(b: number[][]): boolean {
 
   const dirs: Array<[number, number]> = [
     [0, 1], // right
-    [1, 0]  // down
+    [1, 0] // down
   ];
 
   for (let r = 0; r < rows; r++) {
@@ -240,7 +243,6 @@ function hasAnyValidMove(b: number[][]): boolean {
 
 // ---- Core: swap + resolve helper (used by tap and slide) ----
 async function doSwapAndResolve(a: { r: number; c: number }, b: { r: number; c: number }) {
-
   const swapped = trySwap(board, a.r, a.c, b.r, b.c);
   if (!swapped) {
     renderBoard(ctx, board, { gameOver });
@@ -253,8 +255,7 @@ async function doSwapAndResolve(a: { r: number; c: number }, b: { r: number; c: 
 
   try {
     await resolveBoard();
-  } catch (e) {
-  }
+  } catch (e) {}
 }
 
 // ---- Resolve helper: match -> flash -> clear -> collapse -> refill (repeat until stable) ----
@@ -265,6 +266,13 @@ async function resolveBoard() {
   let chain = 1;
   let preferred = lastSwapDest;
   lastSwapDest = null;
+
+  const DELAY_BEFORE_CLEAR = 240; // DMC: Was 240, reducing delay to speed up gameplay
+  const DELAY_AFTER_RENDER = 250; // DMC: Was 250, reducing delay to speed up gameplay
+  const DELAY_AFTER_SPECIAL = 160; // DMC: Was 160, reducing delay to speed up gameplay
+  const DELAY_AFTER_COLLAPSE = 1000; // DMC: Was 1000, reducing delay to speed up gameplay
+  const DELAY_AFTER_REFILL = 350; // DMC: Was 350, reducing delay to speed up gameplay
+  const DELAY_BETWEEN_CASCADE_PASSES = 120; // DMC: Was 120, reducing delay to speed up gameplay
 
   try {
     let pass = 0;
@@ -279,19 +287,19 @@ async function resolveBoard() {
       const specialUsed = usedSpecialRock(board, matches);
 
       // 1) show what is about to clear
-      await flashMatches(matches, 240);
+      await flashMatches(matches, DELAY_BEFORE_CLEAR);
 
       // 2) CLEAR and PAUSE so you can see the “holes”
       const basePoints = clearAndScore(board, matches, preferred);
       preferred = null;
 
       renderBoard(ctx, board, { gameOver });
-      await delay(250);
+      await delay(DELAY_AFTER_RENDER);
 
       // Optional “special used” pulse (also slowed)
       if (specialUsed) {
-        await animatePulse(1.06, 160);
-        await delay(160);
+        await animatePulse(1.06, DELAY_AFTER_SPECIAL);
+        await delay(DELAY_AFTER_SPECIAL);
       }
 
       // scoring
@@ -306,15 +314,15 @@ async function resolveBoard() {
       // 3) COLLAPSE and PAUSE so you can see rocks drop
       collapse(board);
       renderBoard(ctx, board, { gameOver });
-      await delay(1000);
+      await delay(DELAY_AFTER_COLLAPSE);
 
       // 4) REFILL and PAUSE so you can see new rocks appear
       refill(board);
       renderBoard(ctx, board, { gameOver });
-      await delay(350);
+      await delay(DELAY_AFTER_REFILL);
 
       chain++;
-      await delay(120); // between cascade passes
+      await delay(DELAY_BETWEEN_CASCADE_PASSES);
     }
   } catch (e) {
   } finally {
@@ -335,7 +343,6 @@ async function resolveBoard() {
 
 // Pointer down: remember where the drag started
 function handlePointerDown(ev: MouseEvent | PointerEvent | TouchEvent) {
-
   if (isResolving || gameOver) return;
 
   const picked = pickCellAt(board, canvas!, ev);
@@ -349,7 +356,6 @@ function handlePointerDown(ev: MouseEvent | PointerEvent | TouchEvent) {
 
 // Pointer up: decide if this was a tap or a slide, then act
 async function handlePointerUp(ev: MouseEvent | PointerEvent | TouchEvent) {
-
   if (isResolving || gameOver) return;
 
   const endCell = pickCellAt(board, canvas!, ev);
@@ -435,8 +441,6 @@ document.getElementById("restart-btn")?.addEventListener("click", () => {
   resolveBoard().finally(updateHUD);
 });
 
-
 // ---- Initial draw ----
 renderBoard(ctx, board, { gameOver });
 updateHUD();
-
