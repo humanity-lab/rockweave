@@ -267,12 +267,12 @@ async function resolveBoard() {
   let preferred = lastSwapDest;
   lastSwapDest = null;
 
-  const DELAY_BEFORE_CLEAR = 240; // DMC: Was 240, reducing delay to speed up gameplay
-  const DELAY_AFTER_RENDER = 250; // DMC: Was 250, reducing delay to speed up gameplay
-  const DELAY_AFTER_SPECIAL = 160; // DMC: Was 160, reducing delay to speed up gameplay
-  const DELAY_AFTER_COLLAPSE = 1000; // DMC: Was 1000, reducing delay to speed up gameplay
-  const DELAY_AFTER_REFILL = 350; // DMC: Was 350, reducing delay to speed up gameplay
-  const DELAY_BETWEEN_CASCADE_PASSES = 120; // DMC: Was 120, reducing delay to speed up gameplay
+  const DELAY_BEFORE_CLEAR = 40; // DMC: Was 240, reducing delay to speed up gameplay
+  const DELAY_AFTER_RENDER = 50; // DMC: Was 250, reducing delay to speed up gameplay
+  const DELAY_AFTER_SPECIAL = 60; // DMC: Was 160, reducing delay to speed up gameplay
+  const DELAY_AFTER_COLLAPSE = 50; // DMC: Was 1000, reducing delay to speed up gameplay
+  const DELAY_AFTER_REFILL = 50; // DMC: Was 350, reducing delay to speed up gameplay
+  const DELAY_BETWEEN_CASCADE_PASSES = 20; // DMC: Was 120, reducing delay to speed up gameplay
 
   try {
     let pass = 0;
